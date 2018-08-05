@@ -28,6 +28,35 @@ class Ball	{
 	}
 };
 
+class BallFactory {
+	constructor () {
+		this.balls = [];
+	}
 
-const circle = new Ball(100, 100, 10, '#333', 5, 5);
-circle.draw();
+	getRandCoor (coor) {
+		const {width, height} = canvas;
+
+		return Math.random() * ((coor === 'x' ? (width - 20): (height - 20)) + 10 );
+	}
+
+	generate (amount) {
+		const {balls, getRandCoor} = this;
+		for (let i = 0; i < amount; i ++) {
+			const newBall = new Ball(getRandCoor('x'), getRandCoor('y'), 10, '#f00', 5, 5);
+			balls.push(newBall);
+		};
+	}
+
+	drawAll () {
+		const {balls} = this;
+
+		balls.forEach(ball => ball.draw());
+	}	
+}
+
+const balls = new BallFactory;
+
+balls.generate(2);
+balls.drawAll();
+
+
