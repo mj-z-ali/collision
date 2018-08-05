@@ -13,6 +13,10 @@ class Ball	{
 		this.r = r;
 
 		this.color = color;
+
+		this.speedX = speedX;
+
+		this.speedY = speedY;
 	}
 
 	draw () {
@@ -25,6 +29,23 @@ class Ball	{
 		ctx.arc(x, y, r, 0, Math.PI * 2);
 
 		ctx.stroke();
+	}
+
+	move () {
+
+		if (this.x + this.speedX > canvas.width - this.r || this.x + this.speedX < this.r) {
+
+			this.speedX = -this.speedX;
+		};
+
+		if (this.y + this.speedY > canvas.height - this.r || this.y + this.speedY < this.r) {
+
+			this.speedY = -this.speedY;
+		};
+
+		this.x += this.speedX;
+		this.y += this.speedY;
+
 	}
 };
 
@@ -51,13 +72,26 @@ class BallFactory {
 		const {balls} = this;
 
 		balls.forEach(ball => ball.draw());
+	}
+	moveAll () {
+		const {balls} = this;
+
+		balls.forEach(ball => ball.move());
 	}	
 }
 
 const balls = new BallFactory;
-balls.generate(20);
-balls.drawAll();
+balls.generate(10);
 
+
+const animate = () => {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	balls.drawAll();
+	balls.moveAll();
+	requestAnimationFrame(animate);
+};
+
+animate();
 
 
 
