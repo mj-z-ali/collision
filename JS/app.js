@@ -36,7 +36,7 @@ class BallFactory {
 	getRandCoor (coor) {
 		const {width, height} = canvas;
 
-		return Math.random() * ((coor === 'x' ? (width - 20): (height - 20)) + 10 );
+		return (Math.random() * (coor === 'x' ? (width - 20): (height - 20))) + 10 ;
 	}
 
 	generate (amount) {
@@ -55,8 +55,10 @@ class BallFactory {
 }
 
 const balls = new BallFactory;
-
-balls.generate(2);
+balls.generate(20);
 balls.drawAll();
+
+
+
 
 
