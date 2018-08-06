@@ -85,7 +85,7 @@ class BallFactory {
 	generate (amount) {
 		const {balls} = this;
 		for (let i = 0; i < amount; i ++) {
-			const newBall = new Ball(this.getRandCoor(balls), 20, '#00f', 5, 5);
+			const newBall = new Ball(this.getRandCoor(), 20, '#00f', 5, 5);
 
 			balls.push(newBall);
 		}	
@@ -104,7 +104,7 @@ class BallFactory {
 }
 
 const balls = new BallFactory;
-balls.generate(20);
+balls.generate(200);
 
 console.log(balls);
 
