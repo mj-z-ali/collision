@@ -85,9 +85,9 @@ class BallFactory {
 const balls = new BallFactory;
 balls.generate(2);
 
-const circle = new Ball(undefined, undefined, 10, '#f0f', 0, 0);
+const circle = new Ball(undefined, undefined, 50, '#f0f', 0, 0);
 
-const aBall = new Ball(100, 100, 10, '#0f0', 0, 0);
+const aBall = new Ball(500, 300, 50, '#0f0', 0, 0);
 
 
 canvas.addEventListener('mousemove', (e) => {
@@ -109,8 +109,13 @@ const animate = () => {
 	// balls.moveAll();
 	circle.draw();
 	aBall.draw();
-
-	console.log(getDistance(aBall.x, aBall.y, circle.x, circle.y));
+	if (getDistance(aBall.x, aBall.y, circle.x, circle.y) < 100) {
+		aBall.color = '#f00';
+	}
+	else {
+		aBall.color = '#0f0';
+	}
+	console.log();
 	requestAnimationFrame(animate);
 };
 
