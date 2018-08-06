@@ -92,8 +92,8 @@ class Ball	{
 		this.r = r;
 
 		this.velocity = {
-			x: 1,
-			y: 1
+			x: (Math.random() - 0.5) * 4,
+			y: (Math.random() - 0.5) * 4
 		};
 
 		this.mass = 1;
