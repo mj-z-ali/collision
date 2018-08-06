@@ -57,6 +57,17 @@ class Ball	{
 		this.y += this.speedY;
 
 	}
+	checkDistance () {
+		const {balls} = particles;
+
+		for (let i = 0, len = balls.length; i < len; i ++) {
+			if (this !== balls[i]) {
+				if (getDistance(this.x, this.y, balls[i].x, balls[i].y) < 0) {
+					console.log('Collided!');
+				};
+			};
+		};
+	}
 };
 
 class BallFactory {
@@ -101,19 +112,26 @@ class BallFactory {
 		const {balls} = this;
 
 		balls.forEach(ball => ball.move());
-	}	
+	}
+	collisionDetection () {
+		const {balls} = this;
+
+		balls.forEach(ball => ball.checkDistance());
+	}
+
 }
 
-const balls = new BallFactory;
-balls.generate(200);
+const particles = new BallFactory;
+particles.generate(4);
 
-console.log(balls);
 
 
 const animate = () => {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	balls.drawAll();
-	// balls.moveAll();
+	particles.drawAll();
+	particles.moveAll();
+	particles.collisionDetection();
+
 	requestAnimationFrame(animate);
 };
 
