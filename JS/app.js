@@ -16,6 +16,16 @@ const getRandColor = () => {
 		return colors[indx];
 }
 
+const mouse = {
+	x: undefined,
+	y: undefined
+};
+
+canvas.addEventListener('mousemove', (e) => {
+	mouse.x = e.clientX;
+	mouse.y = e.clientY
+});
+
 /*
 
 * Rotates coordinate sytem for velocities
@@ -104,10 +114,12 @@ class Ball	{
 		this.mass = 1;
 
 		this.color = getRandColor();
+
+		this.opacity = 0;
 	}
 
 	draw () {
-		const {x, y, r, color} = this;
+		const {x, y, r, color, opacity} = this;
 
 		ctx.beginPath();
 		
@@ -115,7 +127,7 @@ class Ball	{
 
 		ctx.save();
 
-		ctx.globalAlpha = 0.3;
+		ctx.globalAlpha = opacity;
 		
 		ctx.fillStyle = color;
 
@@ -145,6 +157,13 @@ class Ball	{
 
 		this.x += this.velocity.x;
 		this.y += this.velocity.y;
+
+		if (getDistance(mouse.x, mouse.y, this.x, this.y) < 150 && this.opacity < 0.3) {
+			this.opacity = Math.min(0.3, this.opacity += 0.01);
+		}
+		else if (this.opacity > 0) {
+			this.opacity = Math.max(0, this.opacity -= 0.01);
+		};
 
 	}
 	checkDistance () {
