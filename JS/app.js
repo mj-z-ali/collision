@@ -100,7 +100,7 @@ const getDistance = (x1, y1, x2, y2) => {
 	const xDist = x2 - x1;
 	const yDist = y2 - y1;
 
-	return Math.sqrt((xDist ** 2) + (yDist ** 2));
+	return (Math.sqrt((xDist ** 2) + (yDist ** 2))) - 100;
 };
 
 const animate = () => {
@@ -109,7 +109,7 @@ const animate = () => {
 	// balls.moveAll();
 	circle.draw();
 	aBall.draw();
-	if (getDistance(aBall.x, aBall.y, circle.x, circle.y) < 100) {
+	if (getDistance(aBall.x, aBall.y, circle.x, circle.y) < 0) {
 		aBall.color = '#f00';
 	}
 	else {
