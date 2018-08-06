@@ -60,7 +60,7 @@ const resolveCollision = (particle, otherParticle) => {
 		const m2 = otherParticle.mass;
 
 		// Velocity before equation
-		const u1 = rotate(paticle.velocity, angle);
+		const u1 = rotate(particle.velocity, angle);
 		const u2 = rotate(otherParticle.velocity, angle);
 
 
@@ -84,24 +84,25 @@ const resolveCollision = (particle, otherParticle) => {
 };
 
 class Ball	{
-	constructor ({x, y}, r, color, speedX, speedY) {
+	constructor ({x, y}, r, color) {
 		this.x = x;
 
 		this.y = y;
 
 		this.r = r;
 
+		this.velocity = {
+			x: 1,
+			y: 1
+		};
+
 		this.mass = 1;
 
 		this.color = color;
-
-		this.speedX = speedX;
-
-		this.speedY = speedY;
 	}
 
 	draw () {
-		const {x, y, r, color, speedX, speedY} = this;
+		const {x, y, r, color} = this;
 
 		ctx.beginPath();
 
@@ -117,18 +118,18 @@ class Ball	{
 
 	move () {
 
-		if (this.x + this.speedX > canvas.width - this.r || this.x + this.speedX < this.r) {
+		if (this.x + this.velocity.x > canvas.width - this.r || this.x + this.velocity.x < this.r) {
 
-			this.speedX = -this.speedX;
+			this.velocity.x = -this.velocity.x;
 		};
 
-		if (this.y + this.speedY > canvas.height - this.r || this.y + this.speedY < this.r) {
+		if (this.y + this.velocity.y > canvas.height - this.r || this.y + this.velocity.y < this.r) {
 
-			this.speedY = -this.speedY;
+			this.velocity.y = -this.velocity.y;
 		};
 
-		this.x += this.speedX;
-		this.y += this.speedY;
+		this.x += this.velocity.x;
+		this.y += this.velocity.y;
 
 	}
 	checkDistance () {
@@ -137,7 +138,7 @@ class Ball	{
 		for (let i = 0, len = balls.length; i < len; i ++) {
 			if (this !== balls[i]) {
 				if (getDistance(this.x, this.y, balls[i].x, balls[i].y) < 0) {
-					console.log('Collided!');
+					resolveCollision(this, balls[i]);
 				};
 			};
 		};
@@ -196,7 +197,7 @@ class BallFactory {
 }
 
 const particles = new BallFactory;
-particles.generate(4);
+particles.generate(100);
 
 
 
