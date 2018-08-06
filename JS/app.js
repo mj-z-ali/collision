@@ -10,6 +10,11 @@ const getDistance = (x1, y1, x2, y2) => {
 
 	return (Math.sqrt((xDist ** 2) + (yDist ** 2))) - 40;
 };
+const getRandColor = () => {
+		const colors = ['#7FFFD4', '#FF80AA', '#00FFFF'];
+		const indx = Math.floor(Math.random() * 3);
+		return colors[indx];
+}
 
 /*
 
@@ -84,7 +89,7 @@ const resolveCollision = (particle, otherParticle) => {
 };
 
 class Ball	{
-	constructor ({x, y}, r, color) {
+	constructor ({x, y}, r) {
 		this.x = x;
 
 		this.y = y;
@@ -98,18 +103,28 @@ class Ball	{
 
 		this.mass = 1;
 
-		this.color = color;
+		this.color = getRandColor();
 	}
 
 	draw () {
 		const {x, y, r, color} = this;
 
 		ctx.beginPath();
+		
+		ctx.arc(x, y, r, 0, Math.PI * 2);
+
+		ctx.save();
+
+		ctx.globalAlpha = 0.3;
+		
+		ctx.fillStyle = color;
+
+		ctx.fill();
+
+		ctx.restore();
 
 		ctx.strokeStyle = color;
 
-		ctx.arc(x, y, r, 0, Math.PI * 2);
-		
 		ctx.stroke();
 
 		ctx.closePath();
@@ -172,7 +187,7 @@ class BallFactory {
 	generate (amount) {
 		const {balls} = this;
 		for (let i = 0; i < amount; i ++) {
-			const newBall = new Ball(this.getRandCoor(), 20, '#00f', 5, 5);
+			const newBall = new Ball(this.getRandCoor(), 20);
 
 			balls.push(newBall);
 		}	
@@ -210,7 +225,7 @@ const animate = () => {
 	requestAnimationFrame(animate);
 };
 
-// animate();
+animate();
 
 
 
