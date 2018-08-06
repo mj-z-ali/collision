@@ -11,6 +11,15 @@ const getDistance = (x1, y1, x2, y2) => {
 	return (Math.sqrt((xDist ** 2) + (yDist ** 2))) - 40;
 };
 
+const rotate = (velocity, angle) => {
+	const rotatedVelocities = {
+		x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle),
+		y: velocity.x * Math.sin(angle) + velocity.y * Math.cos(angle)
+	};
+
+	return rotatedVelocities;
+};
+
 class Ball	{
 	constructor ({x, y}, r, color, speedX, speedY) {
 		this.x = x;
@@ -18,6 +27,8 @@ class Ball	{
 		this.y = y;
 
 		this.r = r;
+
+		this.mass = 1;
 
 		this.color = color;
 
@@ -135,7 +146,7 @@ const animate = () => {
 	requestAnimationFrame(animate);
 };
 
-animate();
+// animate();
 
 
 
