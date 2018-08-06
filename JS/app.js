@@ -4,8 +4,15 @@ const canvas = document.getElementById('canvas');
 
 const ctx = canvas.getContext('2d');
 
+const getDistance = (x1, y1, x2, y2) => {
+	const xDist = x2 - x1;
+	const yDist = y2 - y1;
+
+	return (Math.sqrt((xDist ** 2) + (yDist ** 2))) - 40;
+};
+
 class Ball	{
-	constructor (x, y, r, color, speedX, speedY) {
+	constructor ({x, y}, r, color, speedX, speedY) {
 		this.x = x;
 
 		this.y = y;
@@ -27,10 +34,11 @@ class Ball	{
 		ctx.strokeStyle = color;
 
 		ctx.arc(x, y, r, 0, Math.PI * 2);
+		
+		ctx.stroke();
 
 		ctx.closePath();
 
-		ctx.stroke();
 	}
 
 	move () {
@@ -56,18 +64,31 @@ class BallFactory {
 		this.balls = [];
 	}
 
-	getRandCoor (coor) {
-		const {width, height} = canvas;
+	getRandCoor () {
+		const {width, height} = canvas,
+		{balls:{length:bLen},balls} = this,
+				 		xCoor = (Math.random() * (width - 40)) + 20,
+				 		yCoor = (Math.random() * (height - 40)) + 20 ;	
 
-		return (Math.random() * (coor === 'x' ? (width - 20): (height - 20))) + 10 ;
+			for (let i = 0; i < bLen; i ++) {
+				if (getDistance(xCoor, yCoor, balls[i].x, balls[i].y) < 0) {
+					return this.getRandCoor(balls);
+				};
+			};	
+		return {
+			x: xCoor,
+			y: yCoor
+		};
 	}
 
+
 	generate (amount) {
-		const {balls, getRandCoor} = this;
+		const {balls} = this;
 		for (let i = 0; i < amount; i ++) {
-			const newBall = new Ball(getRandCoor('x'), getRandCoor('y'), 10, 'red', 5, 5);
+			const newBall = new Ball(this.getRandCoor(balls), 20, '#00f', 5, 5);
+
 			balls.push(newBall);
-		};
+		}	
 	}
 
 	drawAll () {
@@ -83,15 +104,10 @@ class BallFactory {
 }
 
 const balls = new BallFactory;
-balls.generate(400);
+balls.generate(20);
 
+console.log(balls);
 
-const getDistance = (x1, y1, x2, y2) => {
-	const xDist = x2 - x1;
-	const yDist = y2 - y1;
-
-	return (Math.sqrt((xDist ** 2) + (yDist ** 2))) - 10;
-};
 
 const animate = () => {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
