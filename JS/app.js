@@ -65,16 +65,17 @@ class BallFactory {
 	}
 
 	getRandCoor () {
-		const {width, height} = canvas,
+		const {width, height}       = canvas,
 		{balls:{length:bLen},balls} = this,
-				 		xCoor = (Math.random() * (width - 40)) + 20,
-				 		yCoor = (Math.random() * (height - 40)) + 20 ;	
+		xCoor                       = (Math.random() * (width - 40)) + 20,
+		yCoor                       = (Math.random() * (height - 40)) + 20 ;	
 
-			for (let i = 0; i < bLen; i ++) {
-				if (getDistance(xCoor, yCoor, balls[i].x, balls[i].y) < 0) {
-					return this.getRandCoor(balls);
-				};
-			};	
+
+		for (let i = 0; i < bLen; i ++) {
+			if (getDistance(xCoor, yCoor, balls[i].x, balls[i].y) < 0) {
+				return this.getRandCoor();
+			};
+		};	
 		return {
 			x: xCoor,
 			y: yCoor
