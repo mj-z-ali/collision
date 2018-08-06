@@ -28,7 +28,9 @@ class Ball	{
 
 		ctx.arc(x, y, r, 0, Math.PI * 2);
 
-		ctx.stroke();
+		ctx.closePath();
+
+		ctx.fill();
 	}
 
 	move () {
@@ -63,7 +65,7 @@ class BallFactory {
 	generate (amount) {
 		const {balls, getRandCoor} = this;
 		for (let i = 0; i < amount; i ++) {
-			const newBall = new Ball(getRandCoor('x'), getRandCoor('y'), 10, '#f00', 5, 5);
+			const newBall = new Ball(getRandCoor('x'), getRandCoor('y'), 10, 'red', 5, 5);
 			balls.push(newBall);
 		};
 	}
@@ -81,17 +83,40 @@ class BallFactory {
 }
 
 const balls = new BallFactory;
-balls.generate(10);
+balls.generate(2);
 
+const circle = new Ball(undefined, undefined, 10, '#f0f', 0, 0);
+
+const aBall = new Ball(100, 100, 10, '#0f0', 0, 0);
+
+
+canvas.addEventListener('mousemove', (e) => {
+	circle.x = e.clientX;
+	circle.y = e.clientY;
+});
+
+
+const getDistance = (x1, y1, x2, y2) => {
+	const xDist = x2 - x1;
+	const yDist = y2 - y1;
+
+	return Math.sqrt((xDist ** 2) + (yDist ** 2));
+};
 
 const animate = () => {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	balls.drawAll();
-	balls.moveAll();
+	// balls.moveAll();
+	circle.draw();
+	aBall.draw();
+
+	console.log(getDistance(aBall.x, aBall.y, circle.x, circle.y));
 	requestAnimationFrame(animate);
 };
 
 animate();
+
+
 
 
 
