@@ -8,4 +8,4 @@
 
 ### Particles
 
-![Particles](img/particles.gif)
+![Particles](img/particle.gif)
